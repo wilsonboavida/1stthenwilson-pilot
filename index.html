@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101522">
+<title>1STTHENWILSON PILOT</title>
+<style>
+:root{--bg:#0b1020;--panel:#141c2f;--panel2:#1b2740;--text:#f4f7ff;--muted:#9ca9c4;--line:#2c3954;--green:#33d69f;--red:#ff647c;--blue:#82aaff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#17274b 0,#0b1020 48%);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--text)}
+.wrap{max-width:980px;margin:auto;padding:20px 14px 40px}.top{display:flex;align-items:center;gap:13px;margin:6px 0 20px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#33d69f,#3d79ff);display:grid;place-items:center;color:#07111d;font-size:24px;font-weight:900}.title{font-size:20px;font-weight:850;letter-spacing:.3px}.sub{color:var(--muted);font-size:12px}.pill{margin-left:auto;border:1px solid #2e896f;color:var(--green);padding:5px 9px;border-radius:99px;font-size:11px;font-weight:700}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:rgba(20,28,47,.94);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 10px 30px #0002}.wide{grid-column:1/-1}h2{font-size:15px;margin:0 0 12px}p{margin:5px 0;color:var(--muted)}.modes,.strategies,.stakeModes{display:grid;gap:8px}.modes{grid-template-columns:1fr 1fr}.strategies{grid-template-columns:1fr 1fr}.stakeModes{grid-template-columns:repeat(3,1fr)}button,select,input{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 10px;border-radius:12px;font-weight:700}button.active{border-color:var(--green);background:#173c3a;box-shadow:inset 0 0 0 1px #33d69f44}button:disabled{opacity:.45;cursor:not-allowed}.small{font-size:12px;color:var(--muted)}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input,select{width:100%;background:#0c1426;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.status{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1527;color:var(--muted);font-size:13px}.status strong{color:var(--text)}.actions{display:flex;gap:9px;margin-top:12px}.primary{background:var(--green);color:#07111d;border-color:var(--green);flex:1}.danger{border-color:#873c50;color:#ff9aa9}.notice{font-size:12px;color:#e9c98b;background:#342b1a;border:1px solid #62502b;border-radius:12px;padding:11px;margin-top:12px}.foot{font-size:11px;color:var(--muted);text-align:center;margin-top:18px}.hidden{display:none!important}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.title{font-size:17px}.pill{font-size:10px}.wrap{padding:15px 11px 28px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">P</div>
+    <div><div class="title">1STTHENWILSON PILOT</div><div class="sub">DERIV DIGIT OPTIONS • DASHBOARD PREVIEW</div></div>
+    <span class="pill">DEMO FIRST</span>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>01 / Account mode</h2>
+      <div class="modes">
+        <button id="demoBtn" class="active" type="button">Virtual / Demo</button>
+        <button id="realBtn" type="button">Real account</button>
+      </div>
+      <p id="accountNote" class="small">Demo mode selected. No live trades can be placed by this preview.</p>
+      <div class="field"><label>Connection status</label><div class="status" id="connection"><strong>Not connected</strong> — API connection is not implemented in this preview.</div></div>
+    </section>
+
+    <section class="card">
+      <h2>02 / Select contract strategy</h2>
+      <div class="strategies">
+        <button class="strategy" data-strategy="DIGITMATCH" type="button">Digit Matches</button>
+        <button class="strategy active" data-strategy="DIGITDIFF" type="button">Digit Differs</button>
+        <button class="strategy" data-strategy="DIGITOVER" type="button">Digit Over</button>
+        <button class="strategy" data-strategy="DIGITUNDER" type="button">Digit Under</button>
+      </div>
+      <div class="field"><label for="prediction">Prediction digit / threshold</label><select id="prediction">
+        <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
+      </select></div>
+      <p class="small" id="strategyHelp">Digit Differs: wins if the last digit at contract expiry differs from your selected digit.</p>
+    </section>
+
+    <section class="card">
+      <h2>03 / Stake progression</h2>
+      <div class="stakeModes">
+        <button class="stake active" data-stake="fixed" type="button">Fixed</button>
+        <button class="stake" data-stake="martingale" type="button">Martingale</button>
+        <button class="stake" data-stake="dalembert" type="button">D’Alembert</button>
+      </div>
+      <div class="row">
+        <div class="field"><label for="baseStake">Base stake (USD)</label><input id="baseStake" type="number" min="0.35" step="0.01" value="0.35"></div>
+        <div class="field"><label for="maxStake">Maximum stake (USD)</label><input id="maxStake" type="number" min="0.35" step="0.01" value="1.00"></div>
+      </div>
+      <p class="small" id="stakeHelp">Fixed stake keeps the same stake each trade.</p>
+    </section>
+
+    <section class="card">
+      <h2>04 / Session limits</h2>
+      <div class="row">
+        <div class="field"><label for="stopLoss">Stop-loss (USD)</label><input id="stopLoss" type="number" min="0.01" step="0.01" value="5.00"></div>
+        <div class="field"><label for="takeProfit">Take-profit (USD)</label><input id="takeProfit" type="number" min="0.01" step="0.01" value="2.00"></div>
+      </div>
+      <div class="field"><label for="tradeLimit">Maximum trades per session</label><input id="tradeLimit" type="number" min="1" step="1" value="20"></div>
+      <p class="small">These are UI settings only until the trading engine is implemented and tested.</p>
+    </section>
+
+    <section class="card wide">
+      <h2>05 / Trading session</h2>
+      <div class="status" id="sessionStatus"><strong>Idle</strong> — choose settings, then connect the Deriv API in a future build.</div>
+      <div class="actions">
+        <button class="primary" id="startBtn" type="button">Start demo session preview</button>
+        <button class="danger" id="stopBtn" type="button" disabled>Stop</button>
+      </div>
+      <div id="realWarning" class="notice hidden">Real-account mode is a visual placeholder only. Do not enter or share an API token here. Secure Deriv OAuth authentication and live-order safeguards must be implemented before real trading.</div>
+      <div class="notice">Risk warning: digit contracts are high risk. Staking systems do not create an edge or guarantee recovery. Test on a virtual account and never stake money you cannot afford to lose.</div>
+    </section>
+  </div>
+  <div class="foot">Prototype dashboard • Not connected to Deriv • Does not place trades • Never paste API secrets into this page</div>
+</div>
+<script>
+const strategies = {
+  DIGITMATCH: "Digit Matches: wins if the last digit at contract expiry matches your selected digit.",
+  DIGITDIFF: "Digit Differs: wins if the last digit at contract expiry differs from your selected digit.",
+  DIGITOVER: "Digit Over: wins if the last digit at contract expiry is above your selected threshold.",
+  DIGITUNDER: "Digit Under: wins if the last digit at contract expiry is below your selected threshold."
+};
+const stakeDescriptions = {
+  fixed: "Fixed stake keeps the same stake each trade.",
+  martingale: "Martingale increases stake after a loss. This can escalate losses quickly; it is capped here by your maximum-stake setting.",
+  dalembert: "D’Alembert adjusts stake by a unit after losses/wins. It does not guarantee recovery or profitability."
+};
+let selectedStrategy = "DIGITDIFF", selectedStake = "fixed", accountMode = "demo", running = false;
+document.querySelectorAll(".strategy").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll(".strategy").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active"); selectedStrategy = btn.dataset.strategy;
+  document.getElementById("strategyHelp").textContent = strategies[selectedStrategy];
+}));
+document.querySelectorAll(".stake").forEach(btn => btn.addEventListener("click", () => {
+  document.querySelectorAll(".stake").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active"); selectedStake = btn.dataset.stake;
+  document.getElementById("stakeHelp").textContent = stakeDescriptions[selectedStake];
+}));
+function setMode(mode) {
+  accountMode = mode;
+  document.getElementById("demoBtn").classList.toggle("active", mode === "demo");
+  document.getElementById("realBtn").classList.toggle("active", mode === "real");
+  document.getElementById("accountNote").textContent = mode === "demo" ? "Demo mode selected. No live trades can be placed by this preview." : "Real mode is only a placeholder. Live trading is not enabled.";
+  document.getElementById("realWarning").classList.toggle("hidden", mode !== "real");
+  document.getElementById("startBtn").textContent = mode === "demo" ? "Start demo session preview" : "Real trading not available in preview";
+}
+document.getElementById("demoBtn").addEventListener("click", () => setMode("demo"));
+document.getElementById("realBtn").addEventListener("click", () => setMode("real"));
+document.getElementById("startBtn").addEventListener("click", () => {
+  if (accountMode === "real") {
+    document.getElementById("sessionStatus").innerHTML = "<strong>Not started</strong> — real trading is disabled in this prototype.";
+    return;
+  }
+  const base = Number(document.getElementById("baseStake").value);
+  const max = Number(document.getElementById("maxStake").value);
+  const sl = Number(document.getElementById("stopLoss").value);
+  const tp = Number(document.getElementById("takeProfit").value);
+  const limit = Number(document.getElementById("tradeLimit").value);
+  if (![base,max,sl,tp,limit].every(Number.isFinite) || base <= 0 || max < base || sl <= 0 || tp <= 0 || limit < 1) {
+    document.getElementById("sessionStatus").innerHTML = "<strong>Check settings</strong> — enter positive values and ensure maximum stake is at least the base stake.";
+    return;
+  }
+  running = true;
+  document.getElementById("sessionStatus").innerHTML = "<strong>Preview session active</strong> — strategy: " + selectedStrategy + "; staking: " + selectedStake + "; no trades are being placed.";
+  document.getElementById("startBtn").disabled = true;
+  document.getElementById("stopBtn").disabled = false;
+});
+document.getElementById("stopBtn").addEventListener("click", () => {
+  running = false;
+  document.getElementById("sessionStatus").innerHTML = "<strong>Stopped</strong> — preview session ended. No trades were placed.";
+  document.getElementById("startBtn").disabled = false;
+  document.getElementById("stopBtn").disabled = true;
+});
+</script>
+</body>
+</html>
